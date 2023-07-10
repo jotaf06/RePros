@@ -1,105 +1,203 @@
-usersList = []
-groupsList = []
+import json
 
-def new_user():
+users = []
+groups = []
 
-    idade = int(input('Infome a sua idade: '))
-    if idade < 18:
+def load_users():
+    """Carrega os usuários existentes na rede"""
+    try:
+        file_name = 'users_info.json'
+        with open(file_name, 'r') as f:
+            return json.load(f)
+    except (FileNotFoundError, json.decoder.JSONDecodeError):
+        return []
+        
+ 
+def verifying_repeatted_user_info(info_type, new_info):
+    """Verifica se dada informação pertence a um usuário"""
+    if len(users) == 0:
+        return True
+    else:
+        for user in users:
+            if user[info_type] == new_info:
+                return False
+        return True
+    
+def new_login_user():
+    """Determina um novo login válido"""
+    user_login = input('Digite seu novo login: ')
+    while True:
+        if verifying_repeatted_user_info('login', user_login):
+            print('Login válido!!')
+            break
+        else:
+            print('Esse login ja existe')
+            user_login = input('Digite um outro login: ')
+    return user_login
+
+def new_nickname_user():
+    """Determina um noco nickname válido"""
+    user_nickname = input('Digite seu nickname: ')
+    while True:
+        if verifying_repeatted_user_info('nickname', user_nickname):
+            print('nickname válido!!')
+            break
+        else:
+            print('Esse nickname ja existe')
+            user_nickname = input('Digite um outro nickname')
+
+    return user_nickname
+
+def create_new_user():
+    """Cria um novo usuário"""
+    user_age = int(input('Infome a sua idade: '))
+    if user_age < 18:
         print('Você não tem idade suficiente para usar a rede.')
         return None 
 
-    userLogin = input('Insert your Login: ')
-    userName = input('Insert your nickname: ')  
-    userPassword = input('What password would you like to use for this account? ')
+    user_login = new_login_user()
+    user_nickname = new_nickname_user()
 
-    confirmPassword = input('Confirm your password: ')
-    while confirmPassword != userPassword:
-        print('Confirm failed ')
-        print('Try again ')
-        confirmPassword = input('Confirm your password: ')
+    user_password = input('Digite sua senha: ')
 
-    usersList.append({'login' : userLogin, 'password' : userPassword, 'nickname' : userName, 'privacity': 1})
-    print('Your account was created! ')
+    new_user = ({
+        'login' : user_login,
+        'password' : user_password,
+        'nickname' : user_nickname,
+        'privacity': 1})
+    
+    users.append(new_user)
+    return new_user
 
-def edit_user(currentUser):
-    print("Let's change your info")
-    print('1. press "u" to change user.')
-    print('2. press "p" to change password.')
-    action = input('What info would you like to change?')
+def edit_user(user):
+    """Edita as informações do usuário"""
 
-    new_info = ''
-    if action == 'u':
-        new_info = input('Type your new nick:')
-        for x in usersList:
-            if x['nickname'] == currentUser['nickname']:
-                x['nickname'] = new_info
+    print("Vamos editar as informações de seu perfil\n")
+    print("Você tem as seguinte ações possíveis:")
+    print("0. Digite a Para mostrar na tela as opções 1,2,3,4.")
+    print("1. Digite l para mudar seu login.")
+    print("2. Digite n para mudar seu nickname.")
+    print("3. Digite s para mudar a sua senha.")
+    print("4. Digite q para sair do modo de edição de informações")
 
-    elif action == 'p':
-        new_info = input('Type your new password:')
-        for x in usersList:
-            if x['password'] == currentUser['password']:
-                x['password'] = new_info
+    while True:
+        info_to_change = input("Qual informação você gostaria de mudar?")
+
+        if info_to_change == 'a':
+            print("Você tem as seguinte ações possíveis:")
+            print("0. Digite a Para mostrar na tela as opções 1,2,3,4.")
+            print("1. Digite l para mudar seu login.")
+            print("2. Digite n para mudar seu nickname.")
+            print("3. Digite s para mudar a sua senha.")
+            print("4. Digite q para sair do modo de edição de informações")
+
+        elif info_to_change == "l":
+            user['login'] = new_login_user()
+            
+        elif info_to_change == "n":
+            user['nickname'] = new_nickname_user()
+        
+        elif info_to_change == "s":
+            user['password'] = input("Digite sua nova senha: ")
+            print("Senha alterada com sucesso!!")
+        
+        elif info_to_change == "q":
+            print(user, 'Seu usuário foi editado!!')
+            break
+    
+    
 
 def delete_user(user):
-    for x in usersList:
+    for x in users:
         if x == user:
-            usersList.remove(x)
+            users.remove(x)
             
 def privacity(user):
-    for x in usersList:
+    for x in users:
             if x['privacity'] == user['privacity']:
                 x['privacity'] = 0
 
 def add_member(new_member, group):
     group.append(new_member)
 
+def find_user(user_login):
+    for user in users:
+        if user['login'] == user_login:
+            return user
+    return None
 
-print('Welcome to RePros!')
-print('Press c to create asn account')
-print('Press e to edit your account info')
-print('Press r to remove your account')
-print('Press p to make your account private')
-print('Press a to add a new member to the group')
-print('Press q to quit')
+users = load_users()
 
-action = input('What do you want to do? ')
-action = action.lower()  # force lowercase
-action = action[0]  # just use first letter
-print()
+print("Bem vindo a rede RePros!")
+print("Você tem as seguintes opções nessa rede:\n")
 
-if action == 'c':
-    new_user()
-    print(usersList[0], 'Seu usuário foi criado!!')
-elif action == 'e':
-    new_user()
-    edit_user(usersList[0])
-    print(usersList, 'Seu usuário foi editado!!')
-elif action == 'p':
-    privacity(usersList[0])
-    print(usersList, 'O acesso ao perfil do seu usuário foi restringido!!')
-elif action == 'a':
-    # vamos criar um grupo exemplo pra mostrar a funcionalidade
-    # da add_member
-    # Também vamos considerar que temos dois membros iniciais
-    new_user()
-    new_user()
+print("Digite 'criar' para criar uma conta")
+print("Digite 'editar' para editar as informações da sua conta")
+print("Digite d para deletar, permanentemente, sua conta")
+print("Digite a para acessar as informações de um usuário")
+print("Digite ad para adicionar um novo membro em um grupo")
+print("Digite s para se desligar da rede\n")
+print("Digite opt para ver essas opções anteriores novamente.")
 
-    group = []
-    group.append(usersList[0])
-    group.append(usersList[1])
+while True:
+    action = input("O que você deseja fazer?: ").lower()
 
-    # vamos criar um usuário e colocá-lo
-    new_user()
-    add_member(usersList[2], group)
+    if action == 'criar':
+        new_user = create_new_user()
+        print(new_user)
 
-    print(groupsList, 'Seu novo membro foi adicionado!!')
+    elif action == 'editar':
+        user_login = input("Informe seu login: ")
+        user = find_user(user_login)
 
-elif action == 'r':
-    # vamos adicionar um usuário e depois removê-lo
-    new_user()
-    delete_user(usersList[0])
+        if user == None:
+            print("\nEsse login não está cadastrado na rede.")
+            print("Operação inválida!!")
+            print("Saindo do modo de edição\n")
+        else:
+            edit_user(user)
 
-    print(usersList, 'Seu usuário foir removido!!')
+    elif action == 'p':
+        privacity(users[0])
+        print(users, 'O acesso ao perfil do seu usuário foi restringido!!')
+
+    elif action == 'a':
+        # vamos criar um grupo exemplo pra mostrar a funcionalidade
+        # da add_member
+        # Também vamos considerar que temos dois membros iniciais
+        create_new_user()
+        create_new_user()
+
+        group = []
+        group.append(users[0])
+        group.append(users[1])
+
+        # vamos criar um usuário e colocá-lo
+        create_new_user()
+        add_member(users[2], group)
+
+        print(groups, 'Seu novo membro foi adicionado!!')
+
+    elif action == 'r':
+        # vamos adicionar um usuário e depois removê-lo
+        create_new_user()
+        delete_user(users[0])
+
+        print(users, 'Seu usuário foir removido!!')
+
+    elif action == 's':
+        file_name = 'users_info.json'
+        with open(file_name, 'w') as f:
+            json.dump(users, f)
+        break
+
+    elif action == "opt":
+        print("Digite c para criar uma conta")
+        print("Digite e para editar as informações da sua conta")
+        print("Digite d para deletar, permanentemente, sua conta")
+        print("Digite a para acessar as informações de um usuário")
+        print("Digite ad para adicionar um novo membro em um grupo")
+        print("Digite s para se desligar da rede\n")
 
 
     
