@@ -1,6 +1,6 @@
 import json
 
-users = []
+users = {}
 groups = []
 
 def load_users():
@@ -10,66 +10,53 @@ def load_users():
         with open(file_name, 'r') as f:
             return json.load(f)
     except (FileNotFoundError, json.decoder.JSONDecodeError):
-        return []
+        return {}
         
- 
-def verifying_repeatted_user_info(info_type, new_info):
-    """Verifica se dada informação pertence a um usuário"""
-    if len(users) == 0:
-        return True
-    else:
-        for user in users:
-            if user[info_type] == new_info:
-                return False
-        return True
-    
+     
 def new_login_user():
     """Determina um novo login válido"""
-    user_login = input('Digite seu novo login: ')
+    new_user_login = input('Digite seu novo login: ')
     while True:
-        if verifying_repeatted_user_info('login', user_login):
+        if not(new_user_login in users):
             print('Login válido!!')
             break
         else:
             print('Esse login ja existe')
-            user_login = input('Digite um outro login: ')
-    return user_login
+            new_user_login = input('Digite um outro login: ')
+    return new_user_login
 
 def new_nickname_user():
-    """Determina um noco nickname válido"""
-    user_nickname = input('Digite seu nickname: ')
+    """Determina um novo nickname válido"""
+    new_user_nickname = input('Digite seu nickname: ')
     while True:
-        if verifying_repeatted_user_info('nickname', user_nickname):
+        if not(new_user_nickname in users):
             print('nickname válido!!')
-            break
+            return new_user_nickname
         else:
             print('Esse nickname ja existe')
-            user_nickname = input('Digite um outro nickname')
+            new_user_nickname = input('Digite um outro nickname')
 
-    return user_nickname
 
 def create_new_user():
     """Cria um novo usuário"""
     user_age = int(input('Infome a sua idade: '))
     if user_age < 18:
         print('Você não tem idade suficiente para usar a rede.')
-        return None 
+        return None
 
     user_login = new_login_user()
     user_nickname = new_nickname_user()
 
     user_password = input('Digite sua senha: ')
 
-    new_user = ({
-        'login' : user_login,
-        'password' : user_password,
-        'nickname' : user_nickname,
-        'privacity': 1})
+    new_user = {'password' : user_password,
+                'nickname' : user_nickname,
+                'privacity' : 0}
     
-    users.append(new_user)
+    users[user_login] = new_user
     return new_user
 
-def edit_user(user):
+def edit_user(user_login):
     """Edita as informações do usuário"""
 
     print("Vamos editar as informações de seu perfil\n")
@@ -92,19 +79,23 @@ def edit_user(user):
             print("4. Digite q para sair do modo de edição de informações")
 
         elif info_to_change == "l":
-            user['login'] = new_login_user()
+            new_login = new_login_user()
+            users[new_login] = users[user_login]
+            del users[user_login]
+            user_login = new_login
             
         elif info_to_change == "n":
+            user = users[user_login] 
             user['nickname'] = new_nickname_user()
         
         elif info_to_change == "s":
+            user = users[user_login]
             user['password'] = input("Digite sua nova senha: ")
             print("Senha alterada com sucesso!!")
         
         elif info_to_change == "q":
-            print(user, 'Seu usuário foi editado!!')
+            print(users[user_login], 'Seu usuário foi editado!!')
             break
-    
     
 
 def delete_user(user):
@@ -112,27 +103,61 @@ def delete_user(user):
         if x == user:
             users.remove(x)
             
-def privacity(user):
-    for x in users:
-            if x['privacity'] == user['privacity']:
-                x['privacity'] = 0
+def privacity():
+    """Torna o acesso as informações do usuário restrito"""
+    print("\nPor favor digite seu login para") 
+    print("que possamos tornar seu perfil restrito\n")
+
+    user_login = input("Digite seu login: ")
+
+    while True:
+        user = find_user(user_login)
+        if user:
+            user['privacity'] = 1
+            print("Suas informações agora são restritas.")
+            print("Veja: ", user['privacity'])
+            break
+        else:
+            print("Login não encontrado!!")
+            user_login = input("Digite o login novamente ou digite 'sair' para desistir da operação: ")
+            if user_login == "sair":
+                break
+    
+    print("Saindo do modo de privatização.\n")
 
 def add_member(new_member, group):
     group.append(new_member)
 
 def find_user(user_login):
-    for user in users:
-        if user['login'] == user_login:
-            return user
-    return None
+    """Encontra um usuário a partir de seu login"""
+    if user_login in users:
+        True
+    return False
+
+"""
+def create_new_group():
+    print("Vamos criar um novo grupo.")
+    print("Por favor digite seu login para que possamos criar o grupo")
+    print("e lhe fornecer permissão de administrador.\n")
+
+    user_login = input("Informe seu login: ")
+    
+    user = find_user(user_login)
+    if user:
+
+        file_name = 'repros_groups.json'
+        with open(file_name) as f:
+"""    
 
 users = load_users()
 
 print("Bem vindo a rede RePros!")
 print("Você tem as seguintes opções nessa rede:\n")
 
-print("Digite 'criar' para criar uma conta")
-print("Digite 'editar' para editar as informações da sua conta")
+print("Digite 'criar_usuario' para criar uma conta")
+print("Digite 'editar_usuario' para editar as informações da sua conta")
+print("Digite 'privado' para tornar um perfil restrito")
+print("Digite 'criar_grupo' para criar um novo grupo")
 print("Digite d para deletar, permanentemente, sua conta")
 print("Digite a para acessar as informações de um usuário")
 print("Digite ad para adicionar um novo membro em um grupo")
@@ -140,31 +165,31 @@ print("Digite s para se desligar da rede\n")
 print("Digite opt para ver essas opções anteriores novamente.")
 
 while True:
-    action = input("O que você deseja fazer?: ").lower()
+    action = input("\nO que você deseja fazer?: ").lower()
 
-    if action == 'criar':
+    if action == "criar_usuario":
         new_user = create_new_user()
-        print(new_user)
+        
+        if new_user:
+            print(new_user)
 
-    elif action == 'editar':
+    elif action == "editar_usuario":
         user_login = input("Informe seu login: ")
-        user = find_user(user_login)
 
-        if user == None:
+        if user_login in users:
+            edit_user(user_login)
+        else:
             print("\nEsse login não está cadastrado na rede.")
             print("Operação inválida!!")
-            print("Saindo do modo de edição\n")
-        else:
-            edit_user(user)
+    
+        print("Saindo do modo de edição\n")
 
-    elif action == 'p':
-        privacity(users[0])
-        print(users, 'O acesso ao perfil do seu usuário foi restringido!!')
+    elif action == "privado":
+        privacity()
+        print("Encerrando modo de operação.")
 
-    elif action == 'a':
-        # vamos criar um grupo exemplo pra mostrar a funcionalidade
-        # da add_member
-        # Também vamos considerar que temos dois membros iniciais
+    elif action == 'criar_grupo':
+       
         create_new_user()
         create_new_user()
 
@@ -188,7 +213,7 @@ while True:
     elif action == 's':
         file_name = 'users_info.json'
         with open(file_name, 'w') as f:
-            json.dump(users, f)
+            json.dump(users, f, indent='\t')
         break
 
     elif action == "opt":
@@ -201,3 +226,4 @@ while True:
 
 
     
+print(users)
