@@ -97,12 +97,24 @@ def edit_user(user_login):
             print(users[user_login], 'Seu usuário foi editado!!')
             break
     
+def remove_user():
+    login_user_to_remove = ("Por favor informe o login a ser removido: ")
 
-def delete_user(user):
-    for x in users:
-        if x == user:
-            users.remove(x)
-            
+    while login_user_to_remove != 'sair':
+        if login_user_to_remove in users:
+            del users[login_user_to_remove]
+            print("Usuario removido com sucesso!!\n")
+            break
+        else:
+            print("Usuario não encontrado")
+            print("Digite um login de usuario válido ou digite 'sair' para abandonar a operação.")
+            login_user_to_remove = input("Digite: ")
+    
+    if login_user_to_remove == 'sair':
+        print("Operação abordada...\n")
+    
+    print("Saindo do modo de remoção de usuario...\n")
+
 def privacity():
     """Torna o acesso as informações do usuário restrito"""
     print("\nPor favor digite seu login para") 
@@ -156,6 +168,9 @@ print("Você tem as seguintes opções nessa rede:\n")
 
 print("Digite 'criar_usuario' para criar uma conta")
 print("Digite 'editar_usuario' para editar as informações da sua conta")
+print("Digite 'remover_usuario' para remover um usuario.")
+
+'''
 print("Digite 'privado' para tornar um perfil restrito")
 print("Digite 'criar_grupo' para criar um novo grupo")
 print("Digite d para deletar, permanentemente, sua conta")
@@ -163,6 +178,7 @@ print("Digite a para acessar as informações de um usuário")
 print("Digite ad para adicionar um novo membro em um grupo")
 print("Digite s para se desligar da rede\n")
 print("Digite opt para ver essas opções anteriores novamente.")
+'''
 
 while True:
     action = input("\nO que você deseja fazer?: ").lower()
@@ -183,6 +199,9 @@ while True:
             print("Operação inválida!!")
     
         print("Saindo do modo de edição\n")
+    
+    elif action == 'remover_usuario':
+        remove_user()
 
     elif action == "privado":
         privacity()

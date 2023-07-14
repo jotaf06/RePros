@@ -1,22 +1,12 @@
 {
-	"c": {
-		"password": "4",
-		"nickname": "c",
-		"privacity": 0
-	},
-	"g": {
-		"password": "4",
-		"nickname": "g",
-		"privacity": 0
-	},
-	"armando": {
-		"password": "12",
-		"nickname": "a",
-		"privacity": 0
-	},
 	"bebeca": {
 		"password": "14",
 		"nickname": "bequinha",
+		"privacity": 0
+	},
+	"vivivi": {
+		"password": "147",
+		"nickname": "nononick",
 		"privacity": 0
 	}
 }
