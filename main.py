@@ -3,7 +3,6 @@ from singning_in import entrando_na_rede_repros
 from load_users import carrega_usuarios, salva_os_usuarios
 
 users = carrega_usuarios()
-groups = []
 
 print("BEM VINDO A REDE RePros!\n")
 print("ATENÇÃO: Os comandos da rede devem ser fornecidos exatamente como forem apresentados.")
