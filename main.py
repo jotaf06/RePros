@@ -1,8 +1,9 @@
-from singning_up import create_new_user, new_nickname_user, new_login_user
+from singning_up import create_new_user
 from singning_in import entrando_na_rede_repros
-from load_users import carrega_usuarios, salva_os_usuarios
+from load_functions import carrega_usuarios, carrega_os_grupos
 
 users = carrega_usuarios()
+groups = carrega_os_grupos()
 
 print("BEM VINDO A REDE RePros!\n")
 print("ATENÇÃO: Os comandos da rede devem ser fornecidos exatamente como forem apresentados.")
@@ -27,7 +28,7 @@ while not exit:
                 print("Senha inválida!!!\n")
             else:            
                 print("sing_in realizado com sucesso, entrando na rede RePros...\n")
-                entrando_na_rede_repros(users, input_login)
+                entrando_na_rede_repros(users, input_login, groups)
     
     elif command == 'sing_up':
         print("Você tem mais de 18 anos? Digite sua respota no seguinte formato:\n")
@@ -36,7 +37,7 @@ while not exit:
         age = input("Resposta: ")
 
         if age == 'sim':
-            create_new_user()
+            create_new_user(users)
         
         elif age == 'nao':
             print("Você não tem idade suficiente para ser um usuário dessa rede.\n\n")

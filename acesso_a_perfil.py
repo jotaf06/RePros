@@ -1,9 +1,4 @@
-def find_user(users, perfil_nickname):
-    """Procura o usuário que possui tal nickname"""
-    for user in users.values():
-        if user['nickname'] == perfil_nickname:
-            return user
-    return None
+from singning_up import find_user
 
 def show_perfil(users):
     """Mostra as informações associadas a um perfil com base no nickname fornecido"""

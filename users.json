@@ -1,6 +1,6 @@
 {
 	"bebeca": {
-		"password": "14",
+		"password": "2564",
 		"nickname": "bequinha",
 		"privacity": 0
 	},
@@ -27,6 +27,16 @@
 	"vini2": {
 		"password": "2",
 		"nickname": "vini",
+		"privacity": 0
+	},
+	"guilherme_rezende": {
+		"password": "123",
+		"nickname": "gui",
+		"privacity": 0
+	},
+	"gui": {
+		"password": "123",
+		"nickname": "gg",
 		"privacity": 0
 	}
 }

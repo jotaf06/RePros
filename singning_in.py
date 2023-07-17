@@ -1,7 +1,8 @@
 from editar_usuario import edit_user
 from acesso_a_perfil import show_perfil
+from group_operation import criar_grupo
 
-def entrando_na_rede_repros(users, user):
+def entrando_na_rede_repros(users, user, groups):
     """Aqui ocorre toda a interação do usuário com a rede"""
     
     print(f"Olá {users[user]['nickname']} Você está conectado a rede.")
@@ -19,13 +20,18 @@ def entrando_na_rede_repros(users, user):
             print("'adicionar_midia' - adiciona arquivos em seu perfil.")  
             print("'sair' - para se desconectar.\n")  
         
+        elif command == 'editar_usuario':
+            edit_user(users, user)
+
         elif command == 'acessar_perfil':
             show_perfil(users)
+
+        elif command == 'criar_grupo':
+            criar_grupo(users, user, groups)
 
         elif command == 'sair':
             sair_da_rede = True
             print("Desconectando...\n")
         
-        elif command == 'editar_usuario':
-            edit_user(user)
+        
 

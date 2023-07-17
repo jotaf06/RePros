@@ -1,34 +1,39 @@
-from load_users import carrega_usuarios, salva_os_usuarios
+from load_functions import salva_os_usuarios
 
-users = carrega_usuarios() 
+def find_user(users, perfil_nickname):
+    """Procura o usuário que possui tal nickname"""
+    for user in users.values():
+        if user['nickname'] == perfil_nickname:
+            return user
+    return None
 
-def new_login_user():
+def new_login_user(users):
     """Determina um novo login válido"""
     new_user_login = input('\nDigite seu novo login: ')
     while True:
         if new_user_login not in users:
-            print('Login válido!!\n')
+            print('Login válido!!')
             return new_user_login
         else:
             print('Esse login ja existe')
-            new_user_login = input('Digite um outro login: ')
+            new_user_login = input('\nDigite um outro login: ')
 
-def new_nickname_user():
+def new_nickname_user(users):
     """Determina um novo nickname válido"""
     new_user_nickname = input('\nDigite seu novo nickname: ')
     while True:
-        if new_user_nickname not in users:
-            print('nickname válido!!\n')
+        if find_user(users, new_user_nickname) == None:
+            print('\nnickname válido!!')
             return new_user_nickname
         else:
-            print('Esse nickname ja existe')
-            new_user_nickname = input('Digite um outro nickname')
+            print('\nEsse nickname ja existe')
+            new_user_nickname = input('\nDigite um outro nickname: ')
 
-def create_new_user():
+def create_new_user(users):
     """Cria um novo usuário"""
 
-    user_login = new_login_user()
-    user_nickname = new_nickname_user()
+    user_login = new_login_user(users)
+    user_nickname = new_nickname_user(users)
     user_password = input('\nDigite sua senha: ')
 
     new_user = {'password' : user_password,

@@ -1,9 +1,7 @@
-from load_users import carrega_usuarios, salva_os_usuarios
+from load_functions import salva_os_usuarios
 from singning_up import new_login_user, new_nickname_user
 
-users = carrega_usuarios()
-
-def privacity_edit(user_login):
+def privacity_edit(users, user_login):
     """Torna o acesso as informações do usuário restrito"""
     user = users[user_login]
     if user['privacity'] == 0:
@@ -22,7 +20,7 @@ def privacity_edit(user_login):
     elif command == 'aberto':
         user['privacity'] = 1
 
-def remove_user(user_login):
+def remove_user(users, user_login):
     """Deleta um usuario da rede"""
     print("\nTem certeza que deseja deletar seu usuario?\n")
     print("'del' - para deletar")
@@ -38,7 +36,7 @@ def remove_user(user_login):
         return False
         
 
-def edit_user(user_login):
+def edit_user(users, user_login):
     """Edita as informações do usuário"""
     
     print("\n'opts' - mostra as opções de edição.")
@@ -62,7 +60,7 @@ def edit_user(user_login):
             print("'sair' - sair do modo de edição.\n")
 
         elif command == 'login':
-            new_login = new_login_user()
+            new_login = new_login_user(users)
 
             users[new_login] = users[user_login]
             del users[user_login]
@@ -70,7 +68,7 @@ def edit_user(user_login):
             
         elif command == 'nickname':
             user = users[user_login] 
-            user['nickname'] = new_nickname_user()
+            user['nickname'] = new_nickname_user(users)
         
         elif command == 'senha':
             user = users[user_login]
@@ -78,16 +76,17 @@ def edit_user(user_login):
             print("Senha alterada com sucesso!!\n")
         
         elif command == 'editar_privacidade':
-            privacity_edit(user_login)
+            privacity_edit(users, user_login)
 
         elif command == 'delecao_de_conta':
             remocao = False
-            remocao = remove_user(user_login)
+            remocao = remove_user(users, user_login)
             
             if remocao:
                 print("Usuario removido, saindo da aplicação.")
                 exit()
 
         elif command == 'sair':
+            salva_os_usuarios(users)
             print(users[user_login], "Encerrando operação de edição...\n")
             break
