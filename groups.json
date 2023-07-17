@@ -1,8 +1,24 @@
 {
 	"fudidos_do_ic": [
-		"bequinha"
+		[
+			"bequinha",
+			"admin"
+		],
+		[
+			"vini",
+			"normal_user"
+		]
 	],
-	"os_lindos": [
-		"bequinha"
+	"lolo": [
+		[
+			"bequinha",
+			"admin"
+		]
+	],
+	"gaga": [
+		[
+			"bequinha",
+			"admin"
+		]
 	]
 }
