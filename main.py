@@ -1,9 +1,12 @@
 from singning_up import create_new_user
 from singning_in import entrando_na_rede_repros
-from load_functions import carrega_usuarios, carrega_os_grupos
+from load_functions import carrega_usuarios, carrega_os_grupos, carrega_amizades
+import networkx as nx
 
 users = carrega_usuarios()
 groups = carrega_os_grupos()
+relations = carrega_amizades()
+
 
 print("BEM VINDO A REDE RePros!\n")
 print("ATENÇÃO: Os comandos da rede devem ser fornecidos exatamente como forem apresentados.")
@@ -28,7 +31,7 @@ while not exit:
                 print("Senha inválida!!!\n")
             else:            
                 print("sing_in realizado com sucesso, entrando na rede RePros...\n")
-                entrando_na_rede_repros(users, input_login, groups)
+                entrando_na_rede_repros(users, input_login, groups, relations)
     
     elif command == 'sing_up':
         print("Você tem mais de 18 anos? Digite sua respota no seguinte formato:\n")
