@@ -1,3 +1,4 @@
+import os
 from singning_up import find_user
 
 def show_perfil(users):
@@ -9,10 +10,14 @@ def show_perfil(users):
         if user is None:
             print("\nNão há usuário com esse perfil.")
         else:
-            print("\n")
-            for key, value in user.items():
-                if key != 'password':
-                    print(f"{key}: {value}")
+            perfil_dir = os.path.join('RePros', user['nickname'])
+            files = os.listdir(perfil_dir)
+            if len(files) == 0:
+                print("Não há arquivos no perfil.")
+            else:
+                print("Arquivos no perfil:")
+                for file in files:
+                    print(file)
 
         continuar = input("\nDigite 'True' para continuar ou 'False' para parar a operação: ")
         if continuar.lower() != 'true':
