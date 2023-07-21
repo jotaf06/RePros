@@ -11,7 +11,7 @@ def entrando_na_rede_repros(users, user_login, groups, relations):
      
     sair_da_rede = False
     while sair_da_rede == False:
-        print("Digite 'lista_de_comandos', para ver os comandos da rede.\n")
+        print("\nDigite 'lista_de_comandos', para ver os comandos da rede.\n")
         command = input("comando : ")
 
         if command == "lista_de_comandos":
@@ -21,8 +21,7 @@ def entrando_na_rede_repros(users, user_login, groups, relations):
             print("'subir_arquivo' - subir conteúdo no perfil.")
             print("'criar_grupo' - cria um grupo.")
             print("'entrar_grupo' - entrar em um grupo.")
-            print("'adicionar_midia' - adiciona arquivos em seu perfil.")  
-            print("'sair' - para se desconectar.\n")  
+            print("'sair' - para se desconectar.")  
         
         elif command == 'editar_usuario':
             edit_user(users, user_login)

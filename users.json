@@ -2,7 +2,7 @@
 	"bebeca": {
 		"password": "2564",
 		"nickname": "bequinha",
-		"privacity": 0
+		"privacity": 1
 	},
 	"vivivi": {
 		"password": "147",
@@ -37,6 +37,11 @@
 	"gui": {
 		"password": "123",
 		"nickname": "gg",
+		"privacity": 0
+	},
+	"vini_cabral12": {
+		"password": "1234",
+		"nickname": "vini_alternativo",
 		"privacity": 0
 	}
 }

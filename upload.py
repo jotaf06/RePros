@@ -34,5 +34,5 @@ def upload_arquivo(user_nickname):
         'uploaded_by': user_nickname
     }
 
-    return file_info
+    print(file_info)
 

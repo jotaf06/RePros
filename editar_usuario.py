@@ -16,9 +16,9 @@ def privacity_edit(users, user_login):
     command = input("comando_de_privacidade: ")
 
     if command == 'privado':
-        user['privacity'] = 0
-    elif command == 'aberto':
         user['privacity'] = 1
+    elif command == 'aberto':
+        user['privacity'] = 0
 
 def remove_user(users, user_login):
     """Deleta um usuario da rede"""

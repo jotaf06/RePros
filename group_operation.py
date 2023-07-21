@@ -19,7 +19,7 @@ def add_membro(user_membro, groups, group):
         print("Você não tem permissão para realizar essa operação...")
 
     elif user_membro[1] == 'admin':
-        print("Olá admin")
+        print("\nOlá admin")
         new_membro_nickname = input("Quem você deseja adicionar no seu grupo?: ")
         cargo = input("Qual o nível de acesso do usuário?: ")
 
@@ -50,7 +50,7 @@ def entrar_grupo(users, user_login, groups):
             
             while True:
                 print("\n'add_membro' - para adicionar membro.")
-                print("'sair' - para sair do grupo.")
+                print("'sair' - para sair do grupo.\n")
                 
                 command = input("comando: ")
                 if command == 'add_membro':
