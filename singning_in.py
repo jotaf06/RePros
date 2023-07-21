@@ -27,7 +27,7 @@ def entrando_na_rede_repros(users, user_login, groups, relations):
             edit_user(users, user_login)
 
         elif command == 'acessar_perfil':
-            show_perfil(users)
+            show_perfil(user_login, users, relations)
 
         elif command == 'add_amigo':
             adiciona_amigo(user_login, relations)
